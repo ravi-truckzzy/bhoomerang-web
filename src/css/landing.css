@@ -1,0 +1,223 @@
+/* 
+   landing.css - Refined Horizontal Slider 
+*/
+
+.landing-page {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    display: flex; /* Sections are side-by-side */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background-color: var(--bg-dark);
+    z-index: 1;
+}
+
+.landing-page::-webkit-scrollbar {
+    display: none;
+}
+
+.landing-section {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    position: relative;
+    padding: 0 5%;
+}
+
+/* Background for specific sections */
+#section-1 { background: radial-gradient(circle at center, rgba(255, 222, 89, 0.2) 0%, rgba(126, 217, 87, 0.15) 30%, rgba(131, 56, 236, 0.1) 60%, var(--bg-dark) 100%); }
+#section-2 { background-color: #0d0d0d; }
+#section-3 { background-color: #111; }
+#section-4 { background-color: #0f0f0f; }
+#section-5 { background-color: #0d1a1d; }
+#section-6 { background-color: #1a0d1d; }
+#section-7 { background-color: #1a1d0d; }
+#section-8 { background-color: #0d0d1a; }
+
+.section-content {
+    text-align: center;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    z-index: 10; /* high z-index inside section */
+}
+
+h1 { 
+    font-size: clamp(2.5rem, 8vw, 5rem); 
+    line-height: 1.1; 
+    margin-bottom: 20px; 
+    font-weight: 900; 
+    color: #ffffff !important;
+}
+
+h1 .accent { display: block; color: var(--accent-color); text-transform: uppercase; }
+
+h2 { 
+    font-size: clamp(2rem, 6vw, 4rem); 
+    margin-bottom: 24px; 
+    letter-spacing: -0.02em; 
+    font-weight: 900; 
+    color: #ffffff !important;
+}
+
+.description {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+
+/* Know More Button */
+.know-more-btn {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 15px 35px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    z-index: 10;
+}
+
+.know-more-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* Overlays Container */
+#ui-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2000;
+}
+
+/* Navigation - Hamburger */
+.side-nav {
+    position: fixed;
+    top: 40px;
+    left: 40px;
+    z-index: 3000;
+    pointer-events: auto;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bar { width: 30px; height: 2px; background-color: #fff; transition: 0.3s; }
+
+/* Arrow Navigation */
+.arrow-nav {
+    position: fixed;
+    top: 50%;
+    left: 40px;
+    right: 40px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 4000;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.arrow-nav.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.nav-arrow {
+    background: rgba(255, 255, 255, 0.05); /* Faded / Low emphasis */
+    color: rgba(255, 255, 255, 0.5); /* Faded icon */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    box-shadow: none; /* Removed heavy shadow */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-arrow:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.nav-arrow:disabled {
+    opacity: 0.1;
+    cursor: not-allowed;
+    background: transparent;
+    border-color: transparent;
+}
+
+/* Page Flip Effect */
+.page-flip {
+    position: fixed;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    z-index: 5000;
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    pointer-events: none;
+}
+
+.page-flip.active {
+    transform: translateX(-100%);
+}
+
+/* Navigation - Bottom Numbers */
+.bottom-nav {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    pointer-events: auto;
+}
+
+.nav-numbers { display: flex; gap: 24px; }
+.nav-item { 
+    color: rgba(255, 255, 255, 0.2); /* Very subtle */
+    text-decoration: none; 
+    font-weight: 600; 
+    font-size: 0.75rem; /* Smaller size */
+    transition: all 0.3s; 
+    cursor: pointer; 
+}
+.nav-item.active { 
+    color: rgba(255, 255, 255, 0.9); 
+    transform: scale(1.15); /* Less dramatic scaling */
+}
+.nav-item:hover { color: rgba(255, 255, 255, 0.7); }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Experience | Details</title>
+    <!-- CSS Modules -->
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/detail.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="detail-nav">
+        <a href="#" id="back-btn" class="back-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            BACK TO SLIDER
+        </a>
+    </nav>
+    <main class="detail-content">
+        <h1 id="detail-title">PROJECT DETAILS</h1>
+        <p class="description">This is the detailed view for the selected section. Here you can add extensive information, images, and other content related to the slide.</p>
+        <div class="content-placeholder">
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line short"></div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slideId = urlParams.get('slide');
+            const sectionNames = ["INTRODUCTION", "INNOVATION", "STRATEGY", "DESIGN", "DEVELOPMENT", "GROWTH", "PARTNERSHIP", "CONTACT"];
+            
+            if (slideId !== null) {
+                const idx = parseInt(slideId);
+                const titleText = sectionNames[idx] || `SECTION ${idx + 1}`;
+                document.getElementById('detail-title').innerText = `${(idx + 1).toString().padStart(2, '0')}. ${titleText}`;
+            }
+
+            document.getElementById('back-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (slideId !== null) {
+                    window.location.href = `index.html?slide=${slideId}&v=` + Date.now();
+                } else {
+                    window.location.href = 'index.html?v=' + Date.now();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

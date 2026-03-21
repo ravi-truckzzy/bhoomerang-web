@@ -1,0 +1,58 @@
+/* 
+   main.css - Global foundations and Resets 
+*/
+
+:root {
+    --primary-color: #ffffff;
+    --accent-color: #ffde59; /* Bright yellow */
+    --bg-dark: #0a0a0a;
+    --transition-slow: 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+    --transition-mid: 0.5s ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--primary-color);
+    overflow: hidden; /* Prevent default scroll while in intro or until landing is ready */
+}
+
+h1, h2, h3 {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-slow), visibility var(--transition-slow);
+}
+
+.fade-in {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--transition-slow);
+}
+
+/* Base Transition for Pages */
+#landing-page {
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+}
+
+#landing-page.visible {
+    opacity: 1;
+}
