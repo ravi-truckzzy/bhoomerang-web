@@ -33,15 +33,23 @@
     padding: 0 5%;
 }
 
+.landing-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.65); /* Elegant dark overlay */
+    z-index: 5;
+}
+
 /* Background for specific sections */
-#section-1 { background: radial-gradient(circle at center, rgba(255, 222, 89, 0.2) 0%, rgba(126, 217, 87, 0.15) 30%, rgba(131, 56, 236, 0.1) 60%, var(--bg-dark) 100%); }
-#section-2 { background-color: #0d0d0d; }
-#section-3 { background-color: #111; }
-#section-4 { background-color: #0f0f0f; }
-#section-5 { background-color: #0d1a1d; }
-#section-6 { background-color: #1a0d1d; }
-#section-7 { background-color: #1a1d0d; }
-#section-8 { background-color: #0d0d1a; }
+#section-1 { background: url('https://thumbs.dreamstime.com/b/digital-marketing-concept-business-technology-internet-network-young-businessman-selects-virtual-screen-73236081.jpg') center/cover no-repeat; }
+#section-2 { background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; }
+#section-3 { background: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; }
+#section-4 { background: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; }
+#section-5 { background: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; }
+#section-6 { background: url('https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; }
+#section-7 { background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; }
+#section-8 { background: url('https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; }
 
 .section-content {
     text-align: center;
@@ -52,6 +60,14 @@
     justify-content: center;
     color: #ffffff;
     z-index: 10; /* high z-index inside section */
+}
+
+[data-animation] {
+    visibility: hidden;
+}
+
+[data-animation].animate__animated {
+    visibility: visible;
 }
 
 h1 { 
@@ -83,12 +99,12 @@ h2 {
 /* Know More Button */
 .know-more-btn {
     background: transparent;
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     color: #fff;
-    padding: 15px 35px;
-    font-size: 0.9rem;
+    padding: 10px 24px;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
@@ -131,54 +147,7 @@ h2 {
 
 .bar { width: 30px; height: 2px; background-color: #fff; transition: 0.3s; }
 
-/* Arrow Navigation */
-.arrow-nav {
-    position: fixed;
-    top: 50%;
-    left: 40px;
-    right: 40px;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-    z-index: 4000;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-}
 
-.arrow-nav.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.nav-arrow {
-    background: rgba(255, 255, 255, 0.05); /* Faded / Low emphasis */
-    color: rgba(255, 255, 255, 0.5); /* Faded icon */
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    pointer-events: auto;
-    transition: all 0.3s ease;
-    box-shadow: none; /* Removed heavy shadow */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.nav-arrow:hover {
-    transform: scale(1.05);
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.nav-arrow:disabled {
-    opacity: 0.1;
-    cursor: not-allowed;
-    background: transparent;
-    border-color: transparent;
-}
 
 /* Page Flip Effect */
 .page-flip {
@@ -209,6 +178,7 @@ h2 {
 
 .nav-numbers { display: flex; gap: 24px; }
 .nav-item { 
+    position: relative;
     color: rgba(255, 255, 255, 0.2); /* Very subtle */
     text-decoration: none; 
     font-weight: 600; 
@@ -221,3 +191,73 @@ h2 {
     transform: scale(1.15); /* Less dramatic scaling */
 }
 .nav-item:hover { color: rgba(255, 255, 255, 0.7); }
+
+.nav-tooltip {
+    position: absolute;
+    bottom: 200%;
+    left: 50%;
+    transform: translateX(-50%) translateY(15px);
+    background: rgba(0, 0, 0, 0.85);
+    color: var(--accent-color);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-item:hover .nav-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .bottom-nav {
+        bottom: 25px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .nav-numbers {
+        gap: 12px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 5px 15px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .nav-numbers::-webkit-scrollbar {
+        display: none;
+    }
+    .nav-item {
+        font-size: 0.7rem;
+        padding: 5px;
+    }
+    .nav-tooltip {
+        display: none !important; /* Tooltips don't work well on mobile touch interfaces */
+    }
+    .side-nav {
+        top: 25px;
+        left: 25px;
+    }
+    h1 {
+        font-size: clamp(2rem, 10vw, 3.5rem);
+    }
+    h2 {
+        font-size: clamp(1.8rem, 8vw, 3rem);
+    }
+    .description {
+        font-size: 0.85rem;
+        margin-bottom: 30px;
+    }
+}

@@ -7,9 +7,6 @@ const Landing = {
         this.page = document.getElementById('landing-page');
         this.sections = document.querySelectorAll('.landing-section');
         this.navContainer = document.getElementById('nav-numbers');
-        this.arrowContainer = document.getElementById('slider-arrows');
-        this.prevBtn = document.getElementById('prev-btn');
-        this.nextBtn = document.getElementById('next-btn');
         this.pageFlipOverlay = document.getElementById('page-flip');
         
         this.activeSectionIndex = startIndex;
@@ -18,23 +15,37 @@ const Landing = {
         this.createNav();
         this.bindEvents();
         
+        // Remove hidden early so geometric properties (scrollLeft, innerWidth) work correctly
+        this.page.classList.remove('hidden');
+        
         if (startIndex > 0) {
             // Apply immediate scroll to start index instead of 0
             this.page.scrollLeft = startIndex * window.innerWidth;
             this.updateNavUI();
+        } else {
+            this.updateNavUI(); // Ensure initial state is set even for 0
         }
         
-        this.updateArrowState();
+        this.startAutoSlide();
     },
 
     createNav() {
         this.navContainer.innerHTML = ''; // Clear existing
-        this.sections.forEach((_, index) => {
+        this.sections.forEach((section, index) => {
             const navItem = document.createElement('div');
             navItem.classList.add('nav-item');
             if (index === 0) navItem.classList.add('active');
-            navItem.innerText = (index + 1).toString().padStart(2, '0');
             navItem.dataset.index = index;
+            
+            const numSpan = document.createElement('span');
+            numSpan.innerText = (index + 1).toString().padStart(2, '0');
+            navItem.appendChild(numSpan);
+            
+            const titleText = section.getAttribute('data-title') || 'SLIDE';
+            const tooltipSpan = document.createElement('span');
+            tooltipSpan.classList.add('nav-tooltip');
+            tooltipSpan.innerText = titleText;
+            navItem.appendChild(tooltipSpan);
             
             navItem.addEventListener('click', () => {
                 this.scrollToSection(index);
@@ -55,7 +66,8 @@ const Landing = {
         
         this.activeSectionIndex = index;
         this.updateNavUI();
-        this.updateArrowState();
+        this.updateAnimations();
+        this.resetAutoSlide();
     },
 
     bindEvents() {
@@ -74,18 +86,15 @@ const Landing = {
             if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
                 this.page.scrollLeft += e.deltaY;
                 e.preventDefault();
+                this.resetAutoSlide();
             }
         }, { passive: false });
-
-        // Arrow Buttons
-        this.prevBtn.addEventListener('click', () => this.scrollToSection(this.activeSectionIndex - 1));
-        this.nextBtn.addEventListener('click', () => this.scrollToSection(this.activeSectionIndex + 1));
 
         // Keyboard Navigation
         window.addEventListener('keydown', (e) => {
             if (this.page.classList.contains('hidden')) return;
-            if (e.key === 'ArrowRight') this.scrollToSection(this.activeSectionIndex + 1);
-            if (e.key === 'ArrowLeft') this.scrollToSection(this.activeSectionIndex - 1);
+            if (e.key === 'ArrowRight') { this.scrollToSection(this.activeSectionIndex + 1); this.resetAutoSlide(); }
+            if (e.key === 'ArrowLeft') { this.scrollToSection(this.activeSectionIndex - 1); this.resetAutoSlide(); }
         });
 
         // Know More Buttons (Page Flip)
@@ -105,6 +114,7 @@ const Landing = {
             if (Math.abs(diff) > 50) {
                 if (diff > 0) this.scrollToSection(this.activeSectionIndex + 1);
                 else this.scrollToSection(this.activeSectionIndex - 1);
+                this.resetAutoSlide();
             }
         }, { passive: true });
     },
@@ -117,7 +127,7 @@ const Landing = {
         if (this.activeSectionIndex !== index) {
             this.activeSectionIndex = index;
             this.updateNavUI();
-            this.updateArrowState();
+            this.updateAnimations();
         }
     },
 
@@ -131,16 +141,43 @@ const Landing = {
         });
     },
 
-    updateArrowState() {
-        // Hide entire container on Section 1
-        if (this.activeSectionIndex === 0) {
-            this.arrowContainer.classList.add('hidden');
-        } else {
-            this.arrowContainer.classList.remove('hidden');
-        }
+    updateAnimations() {
+        this.sections.forEach((section, index) => {
+            const animatedElements = section.querySelectorAll('[data-animation]');
+            
+            animatedElements.forEach(el => {
+                const animationClass = el.getAttribute('data-animation');
+                if (!animationClass) return;
 
-        this.prevBtn.disabled = this.activeSectionIndex === 0;
-        this.nextBtn.disabled = this.activeSectionIndex === this.sections.length - 1;
+                if (index === this.activeSectionIndex) {
+                    el.classList.add('animate__animated', animationClass);
+                } else {
+                    el.classList.remove('animate__animated', animationClass);
+                }
+            });
+        });
+    },
+
+    startAutoSlide() {
+        this.stopAutoSlide();
+        this.autoSlideInterval = setInterval(() => {
+            let nextIndex = this.activeSectionIndex + 1;
+            if (nextIndex >= this.sections.length) {
+                nextIndex = 0; // Loop back to start
+            }
+            this.scrollToSection(nextIndex);
+        }, 15000); 
+    },
+
+    stopAutoSlide() {
+        if (this.autoSlideInterval) {
+            clearInterval(this.autoSlideInterval);
+            this.autoSlideInterval = null;
+        }
+    },
+
+    resetAutoSlide() {
+        this.startAutoSlide();
     },
 
     triggerPageFlip() {
@@ -151,6 +188,7 @@ const Landing = {
     show() {
         this.page.classList.remove('hidden');
         this.page.classList.add('visible');
+        this.updateAnimations();
     }
 };
 

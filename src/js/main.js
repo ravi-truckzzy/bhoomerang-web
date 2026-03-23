@@ -10,17 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (slideParam !== null) {
         // Bypass Intro completely
-        document.getElementById('intro-screen').classList.add('hidden');
-        const introVideo = document.getElementById('intro-video');
-        if (introVideo) introVideo.remove(); // Prevent loading/playing video
+        const introScreen = document.getElementById('intro-screen');
+        if (introScreen) {
+            introScreen.classList.add('hidden');
+            introScreen.style.display = 'none';
+            introScreen.remove(); // Remove completely to avoid YT overhead
+        }
+
+        // Ensure UI elements are visible
+        const sideNav = document.querySelector('.side-nav');
+        const bottomNav = document.querySelector('.bottom-nav');
+        if (sideNav) sideNav.classList.remove('hidden');
+        if (bottomNav) bottomNav.classList.remove('hidden');
 
         Landing.init(parseInt(slideParam));
         Landing.show();
     } else {
-        // Initialize normally
+        // Initialize normally – Landing.init() called ONLY after intro completes
         Intro.init(() => {
+            Landing.init(0);
             Landing.show();
         });
-        Landing.init(0);
     }
 });

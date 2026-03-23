@@ -32,36 +32,48 @@
     padding: 150px 10% 80px;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+#detail-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    margin-top: 0 !important;
+    /* Override inline margin */
+    border-radius: 0 !important;
+    /* Full screen needs no radius */
+}
+
+/* Dark overlay for readability */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    /* Deep overlay as in landing */
+    z-index: -1;
 }
 
 .detail-content h1 {
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     margin-bottom: 30px;
-    color: #fff;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .detail-content .description {
     font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.8;
     max-width: 800px;
     margin-bottom: 60px;
-}
-
-/* Mock content */
-.content-placeholder {
-    width: 100%;
-    margin-top: 40px;
-}
-
-.skeleton-line {
-    height: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    margin-bottom: 15px;
-    border-radius: 4px;
-    width: 100%;
-}
-
-.skeleton-line.short {
-    width: 60%;
 }

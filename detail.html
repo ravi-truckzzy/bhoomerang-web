@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,34 +10,55 @@
     <link rel="stylesheet" href="src/css/detail.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
+
 <body>
     <nav class="detail-nav">
         <a href="#" id="back-btn" class="back-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
             BACK TO SLIDER
         </a>
     </nav>
     <main class="detail-content">
-        <h1 id="detail-title">PROJECT DETAILS</h1>
-        <p class="description">This is the detailed view for the selected section. Here you can add extensive information, images, and other content related to the slide.</p>
-        <div class="content-placeholder">
-            <div class="skeleton-line"></div>
-            <div class="skeleton-line"></div>
-            <div class="skeleton-line short"></div>
-        </div>
+        <h1 id="detail-title" class="animate__animated animate__fadeInDown">PROJECT DETAILS</h1>
+        <p class="description animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">This is the detailed
+            view for the selected section. Here you can add extensive information, images, and other content related to
+            the slide.</p>
+
+        <img id="detail-img" class="animate__animated animate__zoomIn"
+            style="animation-delay: 0.4s; width: 100%; border-radius: 12px; margin-top: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); object-fit: cover; height: 500px;"
+            alt="Detail Image">
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const slideId = urlParams.get('slide');
-            const sectionNames = ["INTRODUCTION", "INNOVATION", "STRATEGY", "DESIGN", "DEVELOPMENT", "GROWTH", "PARTNERSHIP", "CONTACT"];
-            
+            const slideNames = ["HOME", "INNOVATION", "STRATEGY", "DESIGN", "DEVELOPMENT", "GROWTH", "PARTNERSHIP", "CONTACT"];
+            const slideImages = [
+                'https://www.shutterstock.com/shutterstock/photos/2159023831/display_1500/stock-photo-digital-marketing-concept-online-advertisement-blank-screen-smartphone-and-laptop-computer-on-2159023831.jpg',
+                'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2000&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=2000&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=2000&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2000&auto=format&fit=crop',
+                'https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2000&auto=format&fit=crop'
+            ];
+
             if (slideId !== null) {
                 const idx = parseInt(slideId);
-                const titleText = sectionNames[idx] || `SECTION ${idx + 1}`;
+                const titleText = slideNames[idx] || `SECTION ${idx + 1}`;
                 document.getElementById('detail-title').innerText = `${(idx + 1).toString().padStart(2, '0')}. ${titleText}`;
+                document.getElementById('detail-img').src = slideImages[idx] || slideImages[0];
+            } else {
+                document.getElementById('detail-img').src = slideImages[0];
             }
 
             document.getElementById('back-btn').addEventListener('click', (e) => {
@@ -50,4 +72,5 @@
         });
     </script>
 </body>
+
 </html>
